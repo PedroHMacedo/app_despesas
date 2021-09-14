@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
 
-  const Chart({required this.recentTransactions, Key? key}):super (key: key);
+  const Chart(this.recentTransactions);
 
   List<Map<String, dynamic>> get groupedTransactions {
     return List.generate(7, (index) {
@@ -18,8 +18,8 @@ class Chart extends StatelessWidget {
 
       for (var i = 0; i < recentTransactions.length; i++) {
         bool sameDay = recentTransactions[i].date.day == weekDay.day;
-        bool sameMonth = recentTransactions[i].date.day == weekDay.month;
-        bool sameYear = recentTransactions[i].date.day == weekDay.year;
+        bool sameMonth = recentTransactions[i].date.month == weekDay.month;
+        bool sameYear = recentTransactions[i].date.year == weekDay.year;
 
         if (sameDay && sameMonth && sameYear) {
           totalSum += recentTransactions[i].value;
@@ -41,8 +41,6 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(recentTransactions);
-    groupedTransactions;
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
@@ -54,9 +52,9 @@ class Chart extends StatelessWidget {
             return Flexible(
               fit: FlexFit.tight,
               child: ChartBar(
-                label: tr['day'].toString(),
+                label: tr['day'],
                 value: tr['value'],
-                percentage: _weekTotalValue == 0 ? 0 : tr['value'] ?? 0 / _weekTotalValue,
+                percentage: _weekTotalValue == 0 ? 0 : (tr['value']) ?? 0 / _weekTotalValue,
               ),
             );
           }).toList(),
